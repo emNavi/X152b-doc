@@ -169,6 +169,9 @@ K中数据含义如下，param_files 中所有含  fx fy cx cy 都需要修改
 
 缓慢拿起无人机，在场地中走一段时间，(越慢效果越好)，无人机会自动生成外参,一般可以通过绕场地一圈回到原点后vins的位置xyz的估计误差来判断外参估计是否足够准确。
 
+.. warning::
+    标定时不要用手遮挡摄像头视野
+
 .. code-block:: bash
 
     rostopic echo /quadrotor_control/odom # 查看vins当前的位姿估计
@@ -283,3 +286,14 @@ ego_planner的本质是打点飞行，在飞向目标点的过程中实时避障
     # 当ego_planner运行结束后
     ./S_land.sh
     ./S_kill_one_shot.sh # 关闭所有程序
+    
+    
+常见问题
+---------
+
+.. code-block:: bash
+    /home/emnavi/ego_planner_v1_all_in_one/src/ego_planner_swarmv1/src/uav_simulator/Utils/multi_map_server/src/multi_map_visualization.cc:5:10: fatal error: multi_map_server/MultiOccupancyGrid.h: No such file or directory
+    5 | #include <multi_map_server/MultiOccupancyGrid.h>
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      
+再次编译即可

@@ -19,7 +19,7 @@ X152b提供通过USB虚拟局域网连接有线直连pc的方法,
 
 如下图所示黑色线为供电线(需要从PD充电器去电)，白色线一端连接机载电脑，另一端连接任意一个电脑(主机)，当电脑上的灯由绿色转变为白色时，电脑已经开启
 
-.. image:: assets/wiring.jpg
+.. image:: ./assets/wiring.jpg
   :width: 600
   :alt: Alternative text
 
@@ -78,10 +78,106 @@ host 的修改如下
 
 .. code-block:: bash
 
-    sudo gedit /etc/hosts
+  sudo gedit /etc/hosts
 
 把两个 Khadas 改成 x152b-ubuntu20
 
 .. image:: ./assets/change_host.png
   :width: 600
   :alt: Alternative text
+
+
+
+用户名更改
+
+默认用户名为qyswarm，密码是123456
+
+
+https://blog.nowcoder.net/n/525cc83df73448a0909cb2a0c286df72
+
+
+.. note::
+  示例中 ： khadas 是 oldName, qyswarm 是 newName,X152b-ubuntu20 是newHostName
+
+
+.. code-block:: bash
+
+  sudo su
+  vim /etc/passwd 找到当前用户名并修改
+  vim /etc/shadow 找到当前用户名并修改
+  vim /etc/group 找到所有当前用户名并修改
+  '可以使用 : %/oldName/newName/g 完成替换'
+  reboot
+
+
+
+现在重启就是新的用户名了，接下来更改密码，主机名，以及用户根目录名
+
+.. code-block:: bash
+  # 更改用户根目录名
+  sudo mv /home/oldName /home/newName
+  # 更改主机名
+  sudo hostnamectl set-hostname newHostName
+  # 更改密码
+  sudo passwd newName
+
+
+更改Logo
+--------
+
+更改登录Logo
+
+在 `/etc/update-motd.d/00-header`中
+
+.. code-block:: bash
+  #!/bin/bash
+
+  KERNEL_VER=$(uname -r)
+
+  . /etc/os-release
+  . /etc/fenix-release
+
+  printf "\nWelcome to \e[0;91mFenix\x1B[0m %s %s %s\n" "$VERSION $PRETTY_NAME Linux $KERNEL_VER"
+
+  # TERM=linux toilet -f standard -F metal "Khadas $BOARD"
+  # X-152b 的位置就是会显示大logo的地方
+  TERM=linux toilet -f standard -F metal "X-152b"
+
+  if cat /proc/cmdline | grep -q reboot_test; then
+          TERM=linux toilet -f standard -F metal "REBOOT TEST"
+  fi
+
+
+效果如下
+
+
+换源
+-----
+
+apt
+
+这里以清华源为例  :ref:`my-reference-label` .
+
+.. code-block:: bash
+
+  # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
+  deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ focal main restricted universe multiverse
+  # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ focal main restricted universe multiverse
+  deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ focal-updates main restricted universe multiverse
+  # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ focal-updates main restricted universe multiverse
+  deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ focal-backports main restricted universe multiverse
+  # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ focal-backports main restricted universe multiverse
+
+  deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ focal-security main restricted universe multiverse
+  # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ focal-security main restricted universe multiverse
+
+  # deb http://ports.ubuntu.com/ubuntu-ports/ focal-security main restricted universe multiverse
+  # # deb-src http://ports.ubuntu.com/ubuntu-ports/ focal-security main restricted universe multiverse
+
+  # 预发布软件源，不建议启用
+  # deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ focal-proposed main restricted universe multiverse
+  # # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ focal-proposed main restricted universe multiverse
+
+
+
+.. _my-reference-label: https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu-ports/
