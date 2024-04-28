@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'X152b'
+project = 'X152b应用开发指南'
 copyright = '2024, hao'
 author = 'hao'
 
@@ -26,5 +26,15 @@ language = 'cn'
 html_theme = 'pydata_sphinx_theme'
 html_static_path = ['_static']
 html_sidebars = {
-    'whats-new': []
+    "**": ["sidebar-nav-bs", "sidebar-ethical-ads"]
 }
+html_theme_options = {
+   "show_nav_level": 0
+}
+
+html_theme_options = {
+    "logo": {
+        "text": "X152b应用开发文档",
+        "image_dark": "_static/logo-dark.svg",
+    },
+    }
