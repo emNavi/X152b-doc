@@ -6,12 +6,19 @@
 X152b 应用开发文档
 ================
 
+.. image:: ./assets/X152b_render.png
+  :width: 600
+  :alt: Alternative text
+
+
+
 .. toctree::
    :maxdepth: 2
    :caption: 目录:
 
-   prepare
+   prepare/index
    code_lib/index
+   firmware/index
 
 
 

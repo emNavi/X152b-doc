@@ -109,12 +109,17 @@ ego_planner_v1_all_in_one 中包含了运行ego_planner所需的全部文件.
     ./S_one_shot_single.sh 
     # 现在，可以通过以下命令查看相机的相关信息（比如内参k）
     rostopic echo /camera/infra1/camera_info
+    # 按ctrl+c 退出
 
-K中数据含义如下
+K中数据含义如下，param_files 中所有含  fx fy cx cy 都需要修改
 
 .. code-block:: bash
 
     [fx,0.0,cx,  0.0,fy,cy,  0,0,1]
+
+.. image:: ./assets/echo_k.png
+    :width: 600
+    :alt: Alternative text
 
 
 现在需要修改相机内参，其存储在 :code:`param_files/real_use` 文件夹下的4个地方,如下所示
@@ -130,6 +135,9 @@ K中数据含义如下
 修改 相机-IMU 外参
 ------------------
 
+.. note::
+    外参标定时需要 **电池上电** ，并将飞机放入场地中
+
 创建一个文件夹用于存储外参
 
 .. code-block:: bash
@@ -137,26 +145,58 @@ K中数据含义如下
     mkdir -p ~/vins_output
     #### 之后的外参自动标定的结果会存储在 ~/vins_output/extrinsic_parameter.txt 中。
 
-现在修改 :code:`param_files/vins/vins_with_d435.yaml` 中参数以使得vins在运行时自动标定外参
+现在修改 :code:`param_files/vins/vins_with_d435.yaml` 中的参数
 
 .. code-block:: yaml
 
-    estimate_extrinsic: 1
+    estimate_extrinsic: 1 # 1 为vins在运行时自动标定外参
 
-现在开启VINS (S_one_shot_single.sh 中包含了vins的启动)
+现在开启VINS
 
 .. code-block:: bash
 
     cd ~/ego_planner_v1_all_in_one
     ./S_kill_one_shot.sh # 确保之前的程序已经关闭
-    ./S_one_shot_single.sh 
+    ./S_one_shot_single.sh # S_one_shot_single.sh 中包含了vins的启动
     # 等待vins初始化完成
+
+当看到如下所示信息时，vins初始化完成
+
+.. image:: ./assets/vins_ok_status.png
+    :width: 600
+    :alt: Alternative text
+
 
 缓慢拿起无人机，在场地中走一段时间，(越慢效果越好)，无人机会自动生成外参,一般可以通过绕场地一圈回到原点后vins的位置xyz的估计误差来判断外参估计是否足够准确。
 
 .. code-block:: bash
 
     rostopic echo /quadrotor_control/odom # 查看vins当前的位姿估计
+
+可以看到如下片段
+
+.. code-block:: bash
+
+    header: 
+    seq: 4403
+    stamp: 
+        secs: 1697162412
+        nsecs: 746027708
+    frame_id: "world"
+    child_frame_id: ''
+    pose: 
+    pose: 
+        position: # 注意下面三行 ，所有值应尽量接近与0，最好在每个都在 0.1m 以内，0.2m也勉强接受
+        x: 0.001063267595719554    
+        y: -6.500945938429109e-05 # e-5 是十的负5次方
+        z: -0.0006057745869551787
+        orientation: 
+        x: 0.01049433684918284
+        y: 0.033035392063272676
+        z: -0.0002442503311311833
+        w: 0.9993990568594147
+    ...............
+
 
 觉得当前的外参合适时 (经验值是 xyz 的估计误差均在 0.2 m以内)，从extrinsic_parameter.txt中,复制 :code:`body_T_cam0` 和 :code:`body_T_cam1` 相关字段覆盖 :code:`param_files/vins/vins_with_d435.yaml` 中对应字段。
 
