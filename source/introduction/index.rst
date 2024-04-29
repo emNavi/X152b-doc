@@ -21,6 +21,18 @@ X152b平台
 X152b是一款集成了双目深度相机D430、轻量级机载算力平台Edge2、Mini PX4飞控、以及穿越机动力套件的自主飞行无人机。
 X152b预装载了ubuntu20.04.6 LTS操作系统，并提供基于此环境的无人机感知、规划、控制、以及学习的二次开发平台。
 
+.. image:: ./assets/X152b-main.png
+    :width: 600
+    :alt: Alternative text
+
+.. image:: ./assets/X152b-front.png
+    :width: 600
+    :alt: Alternative text
+
+.. image:: ./assets/X152b-top.png
+    :width: 600
+    :alt: Alternative text
+
 文档组织
 -------
 本网站分为三个部分，主要内容概括如下：

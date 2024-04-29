@@ -2,11 +2,10 @@
 基础配置
 ==============================================
 
-连接方式
+系统账户信息
 ----------
 
-
-X152b 的默认账户信息如下:
+X152b 的默认系统账户信息如下:
 
 * 用户名: emnavi
 * 默认密码: 123456
@@ -39,7 +38,7 @@ X152b提供通过USB虚拟局域网连接有线直连pc的方法,
 
 .. code-block:: bash
 
-    ssh qyswarm@192.168.20.100
+    ssh emnavi@192.168.20.100
     # 默认密码为123456
 
 
@@ -94,14 +93,14 @@ host 的修改如下
 
 用户名更改
 
-默认用户名为qyswarm，密码是123456
+默认用户名为emnavi，密码是123456
 
 
 https://blog.nowcoder.net/n/525cc83df73448a0909cb2a0c286df72
 
 
 .. note::
-  示例中 ： khadas 是 oldName, qyswarm 是 newName,X152b-ubuntu20 是newHostName
+  示例中 ： khadas 是 oldName, emnavi 是 newName,X152b-ubuntu20 是newHostName
 
 
 .. code-block:: bash
