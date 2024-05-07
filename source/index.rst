@@ -7,7 +7,7 @@ emNavi-X152b 无人机应用开发文档
 ================
 
 .. image:: ./assets/X152b-main.png
-  :width: 900
+  :width: 600
   :alt: Alternative text
 
 .. toctree::
