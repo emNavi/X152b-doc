@@ -22,16 +22,6 @@ V1.1
 - nomachine 自动开启
 - 增加 myclashshell
 
-V1.2
-------------
-
-- 安装 ros-noetic-foxglove-bridge
-- 安装 nautilus-extension-gnome-terminal
-- 修改 host name 的bug
-- 工作空间切换回master分支，khadas 弃用
-- 创建vins_output
-
-
 
 emnavi-x152b-V0.1
 ------------
@@ -45,7 +35,6 @@ emnavi-x152b-V0.1
     - Eigen3
 - 安装ROS-noetic，以及常用包
     - ros-noetic-foxglove-bridge
-    - 
 - 清华源 （apt,ros）
 - 安装nomachine，并开机自启
 - ubs-gadget，ip 为 192.168.108.1
