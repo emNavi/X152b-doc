@@ -1,5 +1,7 @@
 # X152b Documentation
 
+> 此文档为使用指南
+
 https://x152b-doc.readthedocs.io/
 
 ## Quick Start
