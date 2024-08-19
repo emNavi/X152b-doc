@@ -1,7 +1,5 @@
-usb gadget 使用
+USB Gadget 使用
 ===============
-
-
 
 .. code-block:: bash
 
@@ -20,6 +18,5 @@ usb gadget 使用
 
 参考资料
 -------------------
-
 
 https://docs.khadas.com/products/sbc/edge2/configurations/usb-gadget

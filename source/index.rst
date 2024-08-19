@@ -13,11 +13,20 @@ emNavi-X152b 无人机应用开发文档
 .. toctree::
    :maxdepth: 2
    :caption: 目录
+   :hidden:
 
    introduction/index
-   prepare/index
+   firmware_prepare/index
    code_lib/index
-   firmware/index
+   questions_and_answers/index
+
+.. TODO(Derkai)：首页这里应该放一段演示视频
+.. raw:: html
+
+   <video width="640" height="360" autoplay loop muted>
+       <source src="./assets/video.mkv" type="video/webm">
+       Your browser does not support the video tag.
+   </video>
 
 .. Indices and tables
 .. ==================

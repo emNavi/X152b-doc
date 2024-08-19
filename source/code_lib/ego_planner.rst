@@ -1,4 +1,4 @@
-Ego_planner飞行实验
+Ego_planner 规划算法
 ==============================================
 
 ego_planner_v1_all_in_one 中包含了运行ego_planner所需的全部文件.

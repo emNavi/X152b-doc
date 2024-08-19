@@ -13,33 +13,49 @@
 ---------
 
 *Embodied Navigation* (**emNavi**) 是一项基于感知的无人机具身智能导航与控制的研究项目。旨在将最前沿的人工智能与优化方法部署于嵌入式层级的移动机器人之上。
-该项目开发了无人机科研平台X152b、X660等，精简并集成了多种基于无人机平台的前沿研究算法。本文介绍了 **emNavi** 项目基于X152b型无人机的二次开发平台，以及几种典型智能算法的一键部署。
+该项目开发了无人机科研平台 **X152b**、 **X660** 等，精简并集成了多种基于无人机平台的前沿研究算法。本文介绍了 **emNavi** 项目基于 **X152b** 型无人机的二次开发平台，以及几种典型智能算法的一键部署。
 
 X152b平台
 -------
 
-X152b是一款集成了双目深度相机D430、轻量级机载算力平台Edge2、Mini PX4飞控、以及穿越机动力套件的自主飞行无人机。
-X152b预装载了ubuntu20.04.6 LTS操作系统，并提供基于此环境的无人机感知、规划、控制、以及学习的二次开发平台。
+X152b 是一款集成了双目深度相机 D430、轻量级机载算力平台 Edge2、Mini PX4 飞控、以及穿越机动力套件的自主飞行无人机。
+X152b 预装载了 Ubuntu20.04.6 LTS操作系统，并提供基于此环境的无人机感知、规划、控制、以及学习的二次开发平台。
 
-.. image:: ./assets/X152b-main.png
-    :width: 300
-    :alt: Alternative text
+.. |image1| image:: ./assets/X152b-main.png
+   :target: ../index.html
+   :alt: Image 1
+   :width: 300px
+   :height: 180px
 
-.. image:: ./assets/X152b-front.png
-    :width: 300
-    :alt: Alternative text
+.. |image2| image:: ./assets/X152b-front.png
+   :target: ../index.html
+   :alt: Image 2
+   :width: 300px
+   :height: 170px
 
-.. image:: ./assets/X152b-top.png
-    :width: 300
-    :alt: Alternative text
+.. |image3| image:: ./assets/X152b-top.png
+   :target: ../index.html
+   :alt: Image 3
+   :width: 300px
+   :height: 170px
+
+.. list-table::
+   :widths: auto
+   :header-rows: 0
+
+   * - |image1|
+     - |image2|
+     - |image3|
+
+
 
 文档组织
 -------
 本网站分为三个部分，主要内容概括如下：
 
-- 基础配置：介绍X152b的几种连接方式，以帮助用户扩展更丰富的功能。
+- 基础配置：快速上手X152b。
 
-- 算法库：本章节介绍基于X152b的前沿开源算法部署方法。该部分将会随着我们对更多算法的优化与适配而不断扩充。
+- 算法库：介绍基于X152b的前沿开源算法部署方法。该部分将会随着我们对更多算法的优化与适配而不断扩充。
 
 - 系统及固件设置：介绍预装载操作系统、版本修改情况、以及各种硬件相关设置。
 
