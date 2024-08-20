@@ -8,16 +8,17 @@
 
    calibration
    combinatorial_algorithms
+   vins_fusion
+   openvins
    ego_planner
    ipc
-   openvins
-   vins_fusion
+
 
 本项目提供了丰富的前沿无人机人工智能算法，仅需3步即可进行实机飞行
 
 1、首先进行 `无人机传感器标定 <./calibration.html>`_，确保数据源准确
 
-2、按需组合你的算法，组建自己的无人机 `感知-规划-控制` 工作流
+2、 `你可以参考这个示例 <./combinatorial_algorithms.html>`_ ,按需组建自己的 `感知-规划-控制` 工作流并部署到无人机。
 
 3、 `算法评估与可视化 <./foxglove.html>`_
 
