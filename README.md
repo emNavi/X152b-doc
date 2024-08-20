@@ -1,22 +1,28 @@
 # X152b Documentation
 
-> 此文档为使用指南
+[使用指南: https://x152b.readthedocs.io/](https://x152b.readthedocs.io/)
 
-https://x152b.readthedocs.io/
+## X15b 文档构建用法
 
-## Quick Start
+1、下载项目
+``` bash
+git clone https://github.com/emNavi/X152b-doc.git
+```
 
-Clone code 
-
-构建docker image
+2、构建 Sphinx Docker 容器
 ```bash
 sudo docker build -t sphinxdoc/sphinx:awesome . 
 ```
 
-编译，可以直接使用docker完成编译，在X152b目录下使用
+3、进行文档内容的修改
+
+4、使用 Sphinx Docker 容器进行编译
 ```bash
+# 在 X152b-doc 目录下执行
 sudo docker run --rm -v $(pwd):/docs sphinxdoc/sphinx:awesome make html
 ```
-运行后生成的静态文档存在 `build/html`中， 可以安装vscode 中的 Live Server 插件以展示效果(直接打开index.html是一样的，只不过重新编译后需要手动选择刷新)。
+5、查看更新后的文档结果
 
-Live Server 的使用方法为，将 X152b-doc 作为一个工作空间打开，现在打开 `build/html/index.html`,在文件中右键选择`Open with Live Server`。
+运行后生成的静态文档存在 `build/html`中， 可以安装 vscode 中的 Live Server 插件以展示效果(直接打开index.html是一样的，只不过重新编译后需要手动选择刷新)。
+
+Live Server 的使用方法为，将 X152b-doc 作为一个工作空间打开，现在打开 `build/html/index.html`,右键该文件选择 `Open with Live Server`。
