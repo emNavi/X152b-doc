@@ -1,0 +1,14 @@
+.combinatorial_algorithms_process_image-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* 设置图块与箭头之间的间距 */
+}
+
+.combinatorial_algorithms_process_image-block img {
+    max-width: 150px;  /* 调整图块图片大小 */
+}
+
+.combinatorial_algorithms_process_arrow {
+    max-width: 50px;  /* 调整箭头图片大小 */
+}

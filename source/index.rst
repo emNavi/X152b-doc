@@ -19,14 +19,15 @@ emNavi-X152b 无人机应用开发文档
    firmware_prepare/index
    code_lib/index
    questions_and_answers/index
+   version_info/index
 
 .. TODO(Derkai)：首页这里应该放一段演示视频
-.. raw:: html
+.. .. raw:: html
 
-   <video width="640" height="360" autoplay loop muted>
-       <source src="./assets/video.mkv" type="video/webm">
-       Your browser does not support the video tag.
-   </video>
+..    <video width="640" height="360" autoplay loop muted>
+..        <source src="./assets/video.mkv" type="video/webm">
+..        Your browser does not support the video tag.
+..    </video>
 
 .. Indices and tables
 .. ==================

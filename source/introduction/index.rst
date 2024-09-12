@@ -47,6 +47,20 @@ X152b 预装载了 Ubuntu20.04.6 LTS操作系统，并提供基于此环境的�
      - |image2|
      - |image3|
 
+.. TODO(): 可以使用 Three.js 生成用户可点击的3D模型，并且还有爆炸图
+
+.. .. raw:: html
+
+..    <iframe title="3D Model" 
+..            width="100%" 
+..            height="400px"
+..            frameborder="0" 
+..            allowfullscreen 
+..            mozallowfullscreen="true" 
+..            webkitallowfullscreen="true" 
+..            allow="autoplay; fullscreen; vr" 
+..            src="https://sketchfab.com/models/b0e69a53c4944882b3a4a4e4ed4df80a/embed">
+..    </iframe>
 
 
 文档组织

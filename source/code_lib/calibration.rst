@@ -1,21 +1,39 @@
 传感器标定
 ==============================================
 
-.. note::
-    本示例使用 Kalibr 工具进行无人机 相机-IMU 联合标定
+**本篇目标：使用 Kalibr 工具，完成 X152b 无人机 IMU 和 D430 相机联合标定，确保数据源准确**
 
 对无人机上的相机和IMU（惯性测量单元）进行 **联合标定** 的目的是为了获取多传感器精确的内、外参，从而能将两者的数据进行精确融合，以此提高无人机在定位、导航、姿态估计以及环境感知等任务中的精度和可靠性。
 
 确保无人机飞控和相机都安装好并通电能正常使用后，按下列步骤进行：
+
+.. code-block:: bash
+
+    # 进入 X152b 项目目录，下载 Kalibr 工具包并编译
+    bash scripts/kalibr_setup.sh
+
+.. TODO(Derkai): 这里缺少一张流程图，相机标定--> IMU 标定 --> 联合标定
 
 相机标定
 ----------------------------------------------
 
 **1、准备标定板**
 
-通过这个网站生成标定板图案： https://calib.io/pages/camera-calibration-pattern-generator
+通过这个网站生成标定板图案,用于打印或投放在屏幕上显示： https://calib.io/pages/camera-calibration-pattern-generator
 
-新建一个 yaml 文件，这里命名为 `april_6x6_24x24mm.yaml` ,参数以 **标定板实物测量为准** , 填写以下参数并点击生成：
+填写以下参数并点击生成：
+
+.. image:: ./assets/calibr_broad.png
+  :width: 700
+  :alt: calibr_broad
+
+**生成的标定板图案所示：**
+
+.. image:: ./assets/apirltag_example.png
+  :width: 700
+  :alt: calibr_broad
+
+进入 `src/tasks/kalibr` 目录下，新建一个 yaml 文件，命名为 `april_6x6_24x24mm.yaml` ，内容如下所示。（ **以标定板图案实际测量为准** ）
 
 .. code-block:: bash
 
@@ -24,11 +42,8 @@
     tagRows: 6               # 标识码行数
     tagSize: 0.015           # 标识码边长 [m]
     tagSpacing: 0.3          # 标识码边长与标识码间隔边长的比例
-    # example: tagSize=0.015m, spacing=0.5m --> tagSpacing=0.3
-
-.. image:: ./assets/calibr_broad.png
-  :width: 700
-  :alt: calibr_broad
+    # 计算方式：标签的物理边长 tagSize 为 1.5cm，而两个相邻标签中心之间的距离 spacing 为 1.95cm 
+    # tagSpacing = (1.95 / 1.5) -1 = 0.3
 
 **2.录制相机图像包**
 
@@ -51,7 +66,7 @@
 
 .. code-block:: bash
 
-    # 录制相机bag包
+    # 回到 kalibr 所在的目录，录制相机bag包，执行
     rosbag record /infra_left /infra_right -O images.bag
 
     # 标定相机内参和相机间外参
@@ -59,14 +74,14 @@
 
 **3.相机标定评估**
 
-标定完后会生成三个文件，一个 pdf,一个 yaml，一个 txt。
+标定完后会在当前执行命令的目录下生成三个文件，一个 pdf,一个 yaml，一个 txt。
 等待片刻后结果将自动可视化显示，保证所有相机重投影误差在 0.1~0.2 以内，标定结果较好，如下所示。
 
 .. image:: ./assets/camera_calibration.png
   :width: 700
   :alt: camera_calibration
 
-相机标定输出会保存在文件夹下，示例：
+相机标定结果文件示例：
 
 .. code-block:: yaml
 
@@ -98,15 +113,17 @@ IMU标定
 ----------------------------------------------
 
 .. code-block:: bash
-
+    
+    # 下载 IMU 标定相关的组件到 Kalibr 目录下
     git clone https://github.com/gaowenliang/imu_utils.git
 
     # 安装依赖项
     sudo apt-get install libdw-dev
 
-    # 新建一个 fcu_imu.launch 文件，用于飞行棋适配的飞控，写入以下内容
-    # TODO(Derkai):需要写入以下内容
-
+    # 新建一个 fcu_imu.launch 文件，用于飞行器适配的飞控，写入以下内容
+    <include file="$(find mavros)/launch/px4.launch">
+        <arg name="fcu_url" value="/dev/ACM0:921600"/>
+    </include>
 
 .. code-block:: bash
 

@@ -1,72 +1,31 @@
 组合你的算法并部署
 ==============================================
 
-.. note::
-    本示例将演示如何通过组合已适配的算法，并进行调参调优后，实现无人机自主避障飞行至预设的目标点
+**本篇目标：演示如何通过组合已适配的算法，并进行调参调优后，实现无人机自主避障飞行至预设的目标点**
 
-里程计算法选用VINS-Fusion，规划算法选用Ego-Planner，控制算法使用PID
+定位模块选用 `VINS-Fusion`，规划模块选用 `IPC`，控制模块使用 `Emnavi默认控制器（基于PX4）`, 最终效果如下：
 
-
-ego_planner_v1_all_in_one 中包含了运行ego_planner所需的全部文件.
-
-.. warning::
-    以下步骤均需要在Nomachine下完成
-
-
-.. note::
-    当前代码库存储在内部电脑上，外部无法访问，因此非内部使用的机器上均提前下载好了代码，并配置好了环境。后续版本提供下载方式
-
+.. image:: ./assets/vins_fusion_and_ipc.png
+  :width: 600
+  :alt: vins_fusion_and_ipc
 
 环境及代码准备
 ------------------
 
 .. code-block:: bash
 
-    cd ~
-    git clone --recursive http://gitlab.qyswarm.top/projects_group/ego_planner_v1_all_in_one.git
+    # 下载 X152b 开源项目
+    git clone --recursive https://github.com/emNavi/X152b.git
 
-
-安装依赖
-
-.. code-block:: bash
-
-    sudo apt install -y 
-    ros-noetic-ddynamic-reconfigure \
-    ros-noetic-mavros \
-    ros-noetic-mavros-extras \
-    ros-noetic-realsense2-camera \
-    ros-noetic-foxglove-bridge
-    # Find Eigen
-    sudo cp -r /usr/include/eigen3/Eigen /usr/include/
-    # FIX device ID
-    cd ego_planner_v1_all_in_one/Tools/FixDeviceID
-    sudo bash fix.sh
-    cd ~
-
-
-
-.. warning::
-    mavros安装完成之后需要手动安装依赖项（国内网可能无法下载）
-
-    .. code-block:: bash
-
-        cd /opt/ros/noetic/lib/mavros
-        ./install_geographiclib_datasets.sh
-
-代码编译
-------------------
-
-.. code-block:: bash
-
-    cd ~/ego_planner_v1_all_in_one
-    catkin_make
+    # 环境配置与模块编译
+    bash scripts/build.sh
 
 代码结构
 ------------------
 
 .. code-block:: bash
 
-    ├── ego_planner_v1_all_in_one
+    ├── x152b
     │   ├── param_files 存储关键参数(相机参数，ID号等)
     │   │   ├── real_use 使用时程序会读取的参数
     │   │   └── template 参数模板

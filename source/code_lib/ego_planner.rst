@@ -1,4 +1,4 @@
-Ego_planner 规划算法
+Ego-Planner 规划算法
 ==============================================
 
 环境配置与模块编译
@@ -6,6 +6,7 @@ Ego_planner 规划算法
 
 .. code-block:: bash
 
+    # 进入 X152b 项目目录执行
     bash scripts/ego_planner_setup.sh
 
 使用
@@ -13,6 +14,7 @@ Ego_planner 规划算法
 
 .. code-block:: bash
 
+    # 进入 X152b 项目目录执行
     bash scripts/ego_planner_run.sh
 
 调参建议

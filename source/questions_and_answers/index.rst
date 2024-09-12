@@ -1,6 +1,29 @@
 常见问题 Q&A
 ========================
 
+.. toctree::
+   :maxdepth: 2
+   :caption: 目录
+   :hidden:
+
+   compute_check
+   fcu_check
+   camera_check
+   remote_control_check
+
+飞机问题排查
+------------------------
+
+.. list-table::
+   :widths: 10
+   :align: left
+   :header-rows: 1
+
+   * - `排查无人机电脑问题 <./compute_check.html>`_
+   * - `排查飞控（FCU）问题 <./fcu_check.html>`_
+   * - `排查相机问题 <./camera_check.html>`_
+   * - `排查遥控器问题 <./remote_control_check.html>`_
+
 如何修改开机启动 Logo
 ------------------------
 

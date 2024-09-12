@@ -93,6 +93,11 @@ html_static_path = ["_static"]
 html_css_files = ["feedback.css"]
 html_js_files = [("feedback.js", {"defer": "defer"})]
 
+# TODO(derkai): 可在此处添加新的 css 资源
+def setup(app):
+    app.add_css_file('firmware_prepare_index_button.css')
+    app.add_css_file('combinatorial_algorithms_process.css')
+
 theme_options = ThemeOptions(
     show_prev_next=True,
     awesome_external_links=True,

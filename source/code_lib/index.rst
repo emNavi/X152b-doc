@@ -14,13 +14,54 @@
    ipc
 
 
-本项目提供了丰富的前沿无人机人工智能算法，仅需3步即可进行实机飞行
+本项目提供了丰富的前沿无人机自主飞行算法，首先进行以下准备工作
 
-1、首先进行 `无人机传感器标定 <./calibration.html>`_，确保数据源准确
+.. code-block:: bash
 
-2、 `你可以参考这个示例 <./combinatorial_algorithms.html>`_ ,按需组建自己的 `感知-规划-控制` 工作流并部署到无人机。
+   # 下载 X152b 开源项目
+   git clone --recursive https://github.com/emNavi/X152b.git
 
-3、 `算法评估与可视化 <./foxglove.html>`_
+   # 环境配置与模块编译
+   bash scripts/build.sh
+
+**在无人机准备就绪后，仅需3步即可部署算法进行实机飞行：**
+
+..  添加这行 <br> 是因为下面的按钮和上面的文字需要一行空行
+
+.. raw:: html
+
+   <br>
+
+.. TODO(Derkai): 可以考虑换成图片
+
+.. raw:: html
+
+   <a href="./calibration.html" class="firmware_prepare_index_button-blue">1.无人机传感器标定</a>
+   <a href="./combinatorial_algorithms.html" class="firmware_prepare_index_button-green">2.组合算法并部署</a>
+   <a href="./algorithm_evaluation_and_visualization.html" class="firmware_prepare_index_button-red">3.算法评估与可视化</a>
+
+.. .. raw:: html
+
+..    <div class="combinatorial_algorithms_process_image-block">
+..        <a href="./calibration.html">
+..            <img src="./assets/block_calibration.png" alt="Block 1">
+..        </a>
+..        <img src="./assets/arrow.png" alt="Arrow 1" class="combinatorial_algorithms_process_arrow">
+..        <a href="./combinatorial_algorithms.html">
+..            <img src="./assets/block_combinatorial_algorithms.png" alt="Block 2">
+..        </a>
+..        <img src="./assets/arrow.png" alt="Arrow 2" class="combinatorial_algorithms_process_arrow">
+..        <a href="./algorithm_evaluation_and_visualization.html">
+..            <img src="./assets/block_algorithm_evaluation_and_visualization.png" alt="Block 3">
+..        </a>
+..    </div>
+
+
+.. 1、首先进行 `无人机传感器标定 <./calibration.html>`_，确保数据源准确
+
+.. 2、 `你可以参考这个示例 <./combinatorial_algorithms.html>`_ ,按需组建自己的 `感知-规划-控制` 工作流并部署到无人机。
+
+.. 3、 `算法评估与可视化 <./algorithm_evaluation_and_visualization.html>`_
 
 
 目前已适配的算法

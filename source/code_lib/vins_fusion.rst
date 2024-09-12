@@ -6,6 +6,7 @@ Vins-Fusion 视觉里程计
 
 .. code-block:: bash
 
+    # 进入 X152b 项目目录执行
     bash scripts/vin_fusion_setup.sh
 
 使用
@@ -13,6 +14,7 @@ Vins-Fusion 视觉里程计
 
 .. code-block:: bash
 
+    # 进入 X152b 项目目录执行
     bash scripts/vin_fusion_run.sh
 
 调参建议
