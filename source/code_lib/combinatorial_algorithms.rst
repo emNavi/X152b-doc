@@ -3,11 +3,37 @@
 
 **本篇目标：演示如何通过组合已适配的算法，并进行调参调优后，实现无人机自主避障飞行至预设的目标点**
 
-定位模块选用 `VINS-Fusion`，规划模块选用 `IPC`，控制模块使用 `Emnavi默认控制器（基于PX4）`, 最终效果如下：
+.. note:: 
+    本示例所有操作均在无人机机载电脑环境中完成，可使用SSH远程连接进行操作
+
+定位模块选用 `VINS-Fusion`，规划模块选用 `Ego-Planner`，控制模块使用 `Emnavi默认控制器（基于PX4）`, 最终效果如下：
 
 .. image:: ./assets/vins_fusion_and_ipc.png
   :width: 600
   :alt: vins_fusion_and_ipc
+
+项目主要结构
+------------------
+
+.. code-block:: bash
+
+    x152b
+      ├── scripts # 存放各类工具脚本
+      │   ├── build.sh # 通用环境配置
+      │   ├── one_shot_single.sh # 无人机初始化
+      │   ├── takeoff.sh # 起飞
+      │   ├── land.sh # 降落
+      │   ├── kill_one_shot.sh  # 关闭所有程序
+      │   ├── 算法1_run.sh # 所有已适配算法的一键运行、配置
+      │   ├── 算法1_setup.sh
+      │   ├── 算法2_run.sh
+      │   ├── 算法2_setup.sh
+      │   └── ... # 更多适配算法持续更新中
+      └── src
+          ├── core_io # 数据IO模块（飞控驱动、相机驱动、通讯驱动等）
+          ├── global_interface # 接口模块（存放参数文件）
+          ├── tasks # 任务模块（存放所有已适配的算法）
+          └── tools # 工具模块
 
 环境及代码准备
 ------------------
@@ -20,110 +46,38 @@
     # 环境配置与模块编译
     bash scripts/build.sh
 
-代码结构
-------------------
-
-.. code-block:: bash
-
-    ├── x152b
-    │   ├── param_files 存储关键参数(相机参数，ID号等)
-    │   │   ├── real_use 使用时程序会读取的参数
-    │   │   └── template 参数模板
-    │   ├── src
-    │   │   ├── autonomous_drone_sdk # 存放一键启动的luanch文件
-    │   │   ├── control
-    │   │   ├── ego_planner_swarmv1
-    │   │   ├── msg_socket_bridge # 多机执行任务时的信息交换
-    │   │   └── vins_fusion_d435 # vins
-    │   ├── Tools
-    │   │   ├── find_config.py # 在real_use中寻找参数
-    │   │   └── FixDeviceID # 固定px4 ID、
-        以下5个脚本配合以完成在真实场景中运行ego_planner
-    │   ├── S_one_shot_single.sh # 启动 mavros, realsense_camera，control 等节点
-    │   ├── S_takeoff.sh # 起飞
-    │   ├── S_land.sh # 降落
-    │   ├── T_run_egoV1.sh # 执行ego_planner
-    │   └── S_kill_one_shot.sh # 关闭所有程序
-
-
 参数设置
 ------------------
 
-在 :code:`param_files` 中存在两个文件夹，:code:`real_use` 和 :code:`template` ,
-现在需要将 :code:`template` 中如下所示文件及文件夹复制到 :code:`real_use` 中
+在 :code:`src/global_interface/config` 中存放着所有已适配算法的参数文件
 
 .. code-block:: bash
 
-    ├── drone_param.yaml
-    ├── drone_detect
-    │   └── depth_camera.yaml
-    └── vins
+    # 本示例关注以下参数文件即可
+    ├── drone_param.yaml # 存放无人机参数
+    └── vins # vins 里程计算法的参数
         ├── left.yaml
         ├── right.yaml
-        └── vins_with_d435.yaml
+        └── realsense_stereo_imu_config.yaml
 
-修改相机内参
-------------------
+使用 `上一章节传感器标定 <./calibration.html>`_ 得到的结果，写入 left.yaml、right.yaml 和 realsense_stereo_imu_config.yaml 中
 
-对于Realsense D430 相机，可在ros中启动realsense节点之后，读取其topic获取内参。具体步骤如下
-
-.. code-block:: bash
-
-    cd ~/ego_planner_v1_all_in_one
-    ./S_kill_one_shot.sh # 确保之前的程序已经关闭
-    ./S_one_shot_single.sh 
-    # 现在，可以通过以下命令查看相机的相关信息（比如内参k）
-    rostopic echo /camera/infra1/camera_info
-    # 按ctrl+c 退出
-
-K中数据含义如下，param_files 中所有含  fx fy cx cy 都需要修改
-
-.. code-block:: bash
-
-    [fx,0.0,cx,  0.0,fy,cy,  0,0,1]
-
-.. image:: ./assets/echo_k.png
-    :width: 600
-    :alt: Alternative text
-
-
-现在需要修改相机内参，其存储在 :code:`param_files/real_use` 文件夹下的4个地方,如下所示
-
-.. code-block:: bash
-
-    drone_param.py
-    vins/right.yaml
-    vins/left.yaml
-    drone_detect/depth_camera.yaml
-
-
-修改 相机-IMU 外参
-------------------
-
-.. note::
-    外参标定时需要 **电池上电** ，并将飞机放入场地中
-
-创建一个文件夹用于存储外参
-
-.. code-block:: bash
-
-    mkdir -p ~/vins_output
-    #### 之后的外参自动标定的结果会存储在 ~/vins_output/extrinsic_parameter.txt 中。
-
-现在修改 :code:`param_files/vins/vins_with_d435.yaml` 中的参数
+VINS 里程计算法支持运行时自动优化 相机-IMU 的内外参，可根据标定情况选择是否优化
 
 .. code-block:: yaml
 
-    estimate_extrinsic: 1 # 1 为vins在运行时自动标定外参
+    # 修改 realsense_stereo_imu_config.yaml
+    estimate_extrinsic: # 0 当标定的内外参误差较小，使用手动填入的预设值，不开启优化
+                        # 1 当标定的内外参误差较大，只能给出粗略的值时，开启内外参自动优化
 
-现在开启VINS
+测试 VINS-Fusion
+------------------
 
 .. code-block:: bash
 
-    cd ~/ego_planner_v1_all_in_one
-    ./S_kill_one_shot.sh # 确保之前的程序已经关闭
-    ./S_one_shot_single.sh # S_one_shot_single.sh 中包含了vins的启动
-    # 等待vins初始化完成
+    bash scripts/kill_one_shot.sh # 确保之前的程序已经关闭
+    bash scripts/one_shot_single.sh # 初始化无人机（mavros、控制、传感器等节点）
+    bash scripts/vins_fusion_run.sh # 启动 vins 里程计算法。等待几秒，vins初始化完成
 
 当看到如下所示信息时，vins初始化完成
 
@@ -131,63 +85,61 @@ K中数据含义如下，param_files 中所有含  fx fy cx cy 都需要修改
     :width: 600
     :alt: Alternative text
 
-
-缓慢拿起无人机，在场地中走一段时间，(越慢效果越好)，无人机会自动生成外参,一般可以通过绕场地一圈回到原点后vins的位置xyz的估计误差来判断外参估计是否足够准确。
-
-.. warning::
-    标定时不要用手遮挡摄像头视野
+缓慢拿起无人机，在纹理充足的场地中慢速（<1m/s）走一段距离,一般可以通过绕场地一圈回到出发点，观察vins输出的里程计结果值，来判断内外参是否足够准确。
 
 .. code-block:: bash
 
     rostopic echo /quadrotor_control/odom # 查看vins当前的位姿估计
 
-可以看到如下片段
+观察输出结果，观察position下的 x、y、z（相对于出发点的位置值）
 
 .. code-block:: bash
 
-    header: 
-    seq: 4403
-    stamp: 
-        secs: 1697162412
-        nsecs: 746027708
-    frame_id: "world"
-    child_frame_id: ''
-    pose: 
-    pose: 
-        position: # 注意下面三行 ，所有值应尽量接近与0，最好在每个都在 0.1m 以内，0.2m也勉强接受
-        x: 0.001063267595719554    
+    position: # 应尽量都接近于0（单位m），我们测试的效果是无人机累计移动10m，里程计误差应 < 0.1m
+        x: 0.001063267595719554
         y: -6.500945938429109e-05 # e-5 是十的负5次方
         z: -0.0006057745869551787
-        orientation: 
+    orientation: 
         x: 0.01049433684918284
         y: 0.033035392063272676
         z: -0.0002442503311311833
         w: 0.9993990568594147
-    ...............
+        ...............
+
+若上一步是通过开启外参自动优化得到的结果，且评估外参足够可用时，可固定外参，供后续使用
+
+.. code-block:: yaml
+
+    # 修改 realsense_stereo_imu_config.yaml
+    estimate_extrinsic: 0
 
 
-觉得当前的外参合适时 (经验值是 xyz 的估计误差均在 0.2 m以内)，从extrinsic_parameter.txt中,复制 :code:`body_T_cam0` 和 :code:`body_T_cam1` 相关字段覆盖 :code:`param_files/vins/vins_with_d435.yaml` 中对应字段。
-
-接下来修改 :code:`param_files/vins/vins_with_d435.yaml` 中参数以使得vins固定外参
+再次验证是否可用，当 vins 初始化完成后以较快的速度 1~2m/s 的速度绕场地走一圈，回到原点后查看vins的位置估计是否在可接受的误差范围以内，若不满足需要重新标定外参。
 
 .. code-block:: bash
 
-    estimate_extrinsic: 0
+    bash scripts/kill_one_shot.sh # 确保之前的程序已经关闭
+    bash scripts/one_shot_single.sh # 初始化无人机（mavros、控制、传感器等节点）
+    bash scripts/vins_fusion_run.sh # 启动 vins 里程计算法。等待几秒，vins初始化完成
 
-现在重新执行 S_one_shot_single.sh ，初始化完成后以较快的速度 1m/s~2m/s的速度绕场地走一圈，在原点后查看vins的位置估计是否在30cm以内，若不满足需要重新标定外参。
 
-设置ego_planner目标点
+设置 Ego-Planner 目标点
 ------------------
 
-ego_planner的本质是打点飞行，在飞向目标点的过程中实时避障。源码中提供了两种方式(Rviz交互打点和读取配置文件中的目标点)，在此，展示读取配置文件中的目标点的方法，打点信息存储在
-:code:`ego_planner_v1_all_in_one/src/ego_planner_swarmv1/src/planner/plan_manage/launch/real_env/Swarm_all_in_one.launch`
+Ego-Planner 规划算法输入相机的深度图、目标点和里程计信息，通过深度图生成占据栅格地图，并实时生成局部飞行轨迹，在飞向目标点的过程中实时避障。
+
+本示例读取配置文件中的目标点进行目标点发布，打点信息存储在
+:code:`/src/task/ego_planner_swarmv1/src/planner/plan_manage/launch/real_env/Swarm_all_in_one.launch`
 中，其文件片段如下所示(在第70行左右)
+
+**目标点需根据实际场地修改，避免飞到危险的地方**
 
 .. code-block:: xml
 
-	<!-- 生效点数  -->
+    <!-- 预设目标点数  -->
     <arg name="point_num" value="5" />
 
+    <!-- 目标点为相对里程计初始化点的x、y、z坐标，单位 m  -->
     <arg name="point0_x" value="12.0" />
     <arg name="point0_y" value="2.0" />
     <arg name="point0_z" value="0.7" />
@@ -207,59 +159,55 @@ ego_planner的本质是打点飞行，在飞向目标点的过程中实时避障
     <arg name="point4_x" value="0.0" />
     <arg name="point4_y" value="0.0" />
     <arg name="point4_z" value="0.7" />
-    
-    <arg name="point5_x" value="0.0" />
-    <arg name="point5_y" value="0.0" />
-    <arg name="point5_z" value="1.0" />
 
-    <arg name="point6_x" value="0.0" />
-    <arg name="point6_y" value="0.0" />
-    <arg name="point6_z" value="1.0" />
-
-以上内容可根据实际情况修改。
-
-
-实验
+飞行实验
 ------------------
 
-在根据当前场景修改了打点信息并确保相机内外参没有问题后，现在可以开始测试了,在 :code:`ego_planner_v1_all_in_one` 中有5个脚本，分别为
+在根据当前场景修改了打点信息并确保相机内外参没有问题后，现在可以开始飞行测试了：
 
 .. code-block:: bash
 
-    ├── S_one_shot_single.sh  # 开启必要的驱动，相机，飞控等
-    ├── S_takeoff.sh # 起飞
-    ├── T_run_egoV1.sh # 运行ego_planner
-    ├── S_land.sh # 降落
-    └── S_kill_one_shot.sh # 关闭上述所有脚本开启的进程
+    # 无人机初始化
+    bash scripts/one_shot_single.sh 
+    # 起飞，等待片刻飞机将起飞
+    bash scripts/takeoff.sh
+    # 当飞机起飞定高稳定后，再运行 ego-planner
+    bash scripts/run_ego_v1.sh
+    # 当 ego-planner 运行结束后进行降落
+    bash scripts/land.sh 
+    # 关闭所有程序
+    bash scripts/kill_one_shot.sh
 
-使用流程
-
-.. code-block:: bash
-
-    # 在开始时
-    cd ~/ego_planner_v1_all_in_one
-    ./S_one_shot_single.sh 
-    # 等待开启完成后，缓慢拿起无人机，在空中缓慢转一圈，然后放回原位（vins会自动估计相机和imu采样的时间间隔TD，直接起飞有一定概率使得其估计错误，因此需要缓慢移动使其估计收敛）
-    # 查看里程计频率，应该为200hz 左右
-    rostopic hz /quadrotor_control/odom
-    # 查看里程计信息，xyz 应均为0
-    rostopic echo /quadrotor_control/odom
-    # 起飞
-    ./S_takeoff.sh
-    # 运行 ego_planner
-    ./T_run_egoV1.sh
-    # 当ego_planner运行结束后
-    ./S_land.sh
-    ./S_kill_one_shot.sh # 关闭所有程序
-    
-    
 常见问题
----------
+------------------
+
+Q: 启动 vins 节点后，一直卡在初始化。
+
+A: 检查IMU和相机数据是否正常输入，或检查填入的相机-IMU内外参是否有误：
 
 .. code-block:: bash
 
-    /home/emnavi/ego_planner_v1_all_in_one/src/ego_planner_swarmv1/src/uav_simulator/Utils/multi_map_server/src/multi_map_visualization.cc:5:10: fatal error: multi_map_server/MultiOccupancyGrid.h: No such file or directory
-    5 | #include <multi_map_server/MultiOccupancyGrid.h>
-      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # 可以使用 rostopic 检查以下节点数据
+    /mavros/imu/data # 通常 IMU 话题发布频率需要在100Hz以上
+    /rs_camera/infra_left/data # 检查左右两相机话题发布频率是否在 15Hz 以上
+    /rs_camera/infra_right/data
 
-再次编译即可
+Q: 只给了一个粗糙的参数，但是开启自动优化后依然不准，或直接跑崩。
+
+A: 可能的原因包含：
+
+.. code-block:: text
+
+    1、检查相机和IMU是否存在明显的结构松动情况
+    2、检查所给内外参是否明显的超过实际情况（例如相机到IMU的旋转矩阵在某个轴超过90度），需要重新联合标定相机-IMU
+    3、在进行标定自动优化时，注意不要用手或其他东西遮挡摄像头视野；手持绕场进行外参标定时，移动速度不易过快；确保相机画面能观察到足够稳定的场地纹理。
+
+Q: 无人机在穿越障碍时会撞到障碍物。
+
+A: 可以通过录制rosbag包离线运行算法或手持无人机到撞机点附近，复现异常场景。可能的原因包含：
+
+.. code-block:: text
+
+    1、无人机飞行太快，Ego-Planner 规划结果还未能完全得到执行或里程计延迟太高
+    2、在撞机点附近的深度图，导致生成的点云占据栅格地图出现非理想情况（生成错误或生成缺失）
+    通常的做法是调整场地环境（环境灯光、障碍物摆放空间关系）、深度相机参数、点云占据栅格生成参数等来保证该处的规划可行。

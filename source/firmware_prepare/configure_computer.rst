@@ -63,47 +63,46 @@
 首次连接 Wifi
 -----------
 
-.. note::
-  本示例将无人机机载电脑的IP设置为 192.168.20.100
+另外准备一台计算机（主机），通过USB虚拟局域网有线直连 X152b 机载电脑。
 
-另外准备一台计算机，通过USB虚拟局域网有线直连 X152b 机载电脑。
+如下图所示，将物料包中的两根线分别插在 **对应的位置** 上。
 
-.. warning::
-    为了使虚拟网卡正常工作，在机载电脑开机前需要拔掉 RealSense D430 的数据线
+* 黑色线为供电线(需要从PD充电器取电)，当机载电脑上的灯由绿色转变为白色时，表明系统已启动
 
+* 白色线为数据线，需要拔掉 RealSense D430 的数据线，换成这根线。另一端连接主机
 
-如下图所示，准备两条线，分别插在对应的位置上。
-
-* 黑色线为供电线(需要从PD充电器取电)
-
-* 白色线为数据线，一端连接机载电脑，另一端连接另一个计算机（主机），当机载电脑上的灯由绿色转变为白色时，表明机载电脑已经开启
-
-.. image:: ./assets/wiring.jpg
+.. image:: ./assets/wiring.png
   :width: 600
   :alt: Alternative text
 
+此时主机上会新增一个USB以太网连接，手动设置主机IPv4地址为同一网段，参考如下：
 
-此时主机上会新增一个USB网卡，按下表手动对主机上的网卡进行设置
+.. note::
+  无人机机载电脑USB网口的默认IP设置为 192.168.108.1
 
 .. list-table::
    :widths: 5 30
    :align: left
    :header-rows: 1
 
-   * - **IP**
-     - **NetMask**
-   * - 192.168.20.10
-     - 255.255.255.0
-
-现在就可以通过 SSH 连接至机载电脑
+.. image:: assets/usb_connect_compute.png
+  :width: 600
+  :alt: Alternative text
 
 .. code-block:: bash
 
-    ssh emnavi@192.168.20.100
-    # 默认密码为123456
+    # 验证网络是否能到机载电脑，在主机上执行
+    ping 192.168.108.1
 
+确保联通成功后，接下来可通过 SSH 连接至机载电脑
 
-通过 SSH 建立连接之后，可以通过命令行连接 wifi ,这里使用 `nmcli` 工具配置网络,以下是常用指令
+.. code-block:: bash
+
+    # 通过SSH连接到机载电脑，在主机上执行。默认机载电脑用户密码为123456
+    ssh emnavi@192.168.108.1
+    
+
+通过 SSH 连接到机载电脑后，可以通过 `nmcli` 命令连接 wifi
 
 .. code-block:: bash
 
@@ -113,15 +112,14 @@
     sudo nmcli device wifi connect 要连接的wifi名 password wifi密码
     # 查看已有的连接
     nmcli connection show
-    # 删除连接
-    sudo nmcli connection delete 要删除的wifi名
 
-.. note::
-    连接上 wifi 后可以通过 `ifconfig` 直接查看机载电脑无线网卡被自动分配的 IP 地址，方便下一步配置 Nomachine
-
+    # 连接 wifi 成功后，查看机载电脑 IP 地址，方便下一步配置 Nomachine
+    ifconfig
 
 首次使用 Nomachine 连接至无人机
 -----------------------
+
+在主机上启动 Nomachine，如下图所示进行初次连接配置：
 
 .. image:: assets/nomachine_step_1.png
   :width: 800

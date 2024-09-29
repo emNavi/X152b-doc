@@ -89,6 +89,8 @@ html_sidebars: dict[str, list[str]] = {
 templates_path = ["_templates"]
 # html_additional_pages = {"about": "about.html"}
 
+# TODO(derkai): 可在此处更改代码文本风格
+pygments_style = 'default'
 html_static_path = ["_static"]
 html_css_files = ["feedback.css"]
 html_js_files = [("feedback.js", {"defer": "defer"})]

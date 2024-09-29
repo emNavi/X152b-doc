@@ -19,7 +19,11 @@
 
 **1、准备标定板**
 
-通过这个网站生成标定板图案,用于打印或投放在屏幕上显示： https://calib.io/pages/camera-calibration-pattern-generator
+通过这个网站生成标定板图案,打印出来或投放在屏幕上显示：
+
+.. raw:: html
+
+   <a href="https://calib.io/pages/camera-calibration-pattern-generator" target="_blank">https://calib.io/pages/camera-calibration-pattern-generator</a>
 
 填写以下参数并点击生成：
 
@@ -81,55 +85,44 @@
   :width: 700
   :alt: camera_calibration
 
-相机标定结果文件示例：
+其中相机标定结果文件 images-camchain.yaml 示例：
 
 .. code-block:: yaml
 
-    cam0:
+    cam0:                   # cam0相机编号
     cam_overlaps: [1]
-    camera_model: pinhole
-    distortion_coeffs: [0.962084349711143]
-    distortion_model: fov
-    intrinsics: [334.23991339518517, 333.6035571693483, 368.20264278064553, 252.393048692916]
-    resolution: [752, 480]
-    rostopic: /stereo/left/image_raw
-    cam1:
-    T_cn_cnm1:
-    - [0.9999904159643447, 0.0026734233431591698, -0.003467100673890538, -0.1172292375035688]
-    - [-0.002666210133778015, 0.999994275307285, 0.002083428947247444, 0.0001658846059485747]
-    - [0.003472650713385957, -0.002074164960638575, 0.9999918192349059, -0.0002328222935304919]
+    camera_model: pinhole   # cam0相机模型
+    # cam0 畸变系数：针孔模型一般默认 k3 为0，因此这里只显示出了四个值
+    distortion_coeffs: [-0.01378805419196066, 0.002278788473702715, 0.0007173277022338453, -0.006341399229805932]
+    distortion_model: radtan
+    # cam0 相机内参
+    intrinsics: [391.0320770550118, 387.9456433375324, 314.83224317528516, 243.05566306809567]
+    resolution: [640, 480]  # cam0 图像分辨率
+    rostopic: /infra_left   # cam0 图像话题
+    cam1:                   # cam1 相机编号
+    T_cn_cnm1:              # 将 cam0 相机坐标系转换为 cam1 相机坐标系的外参矩阵
+    - [0.9999982915331912, -0.00031303784731164517, -0.0018217952711038997, -0.04972812293434749]
+    - [0.0003167560316089834, 0.9999978669601184, 0.002041014658102277, -3.6665360162458345e-05]
+    - [0.0018211524703070222, -0.002041588235736951, 0.9999962576535776, 0.0014231911875602474]
     - [0.0, 0.0, 0.0, 1.0]
     cam_overlaps: [0]
-    camera_model: pinhole
-    distortion_coeffs: [0.9617138563016285]
-    distortion_model: fov
-    intrinsics: [330.66005261900216, 330.07191301082963, 371.03802575515203, 231.03601204806853]
-    resolution: [752, 480]
-    rostopic: /stereo/right/image_raw
-
-
+    camera_model: pinhole   # cam1相机模型
+    # cam1 畸变系数：针孔模型一般默认 k3 为0，因此这里只显示出了四个值
+    distortion_coeffs: [-0.004326382830568126, -0.008360676153607263, 0.00019896224536200172, -0.006517330768703903]
+    distortion_model: radtan
+    # cam1 相机内参
+    intrinsics: [390.92818900850614, 388.52174683212223, 316.74730795452746, 242.1032869823098]
+    resolution: [640, 480]  # cam1 图像分辨率
+    rostopic: /infra_right  # cam1 图像话题
 
 IMU标定
 ----------------------------------------------
 
 .. code-block:: bash
-    
-    # 下载 IMU 标定相关的组件到 Kalibr 目录下
-    git clone https://github.com/gaowenliang/imu_utils.git
 
-    # 安装依赖项
-    sudo apt-get install libdw-dev
-
-    # 新建一个 fcu_imu.launch 文件，用于飞行器适配的飞控，写入以下内容
-    <include file="$(find mavros)/launch/px4.launch">
-        <arg name="fcu_url" value="/dev/ACM0:921600"/>
-    </include>
-
-.. code-block:: bash
-
-    # 1.启动飞控IMU，运行后静置飞机在水平面两小时以上
-    # 连上飞控后启动，可以使用 rqt_topic 检查飞控数据是否正常发送
-    roslaunch mavros px4.launch
+    # 1.启动飞控IMU，可使用 rqt_topic 检查飞控IMU数据是否正常发送
+    # 运行后静置飞机在水平面两小时以上以保证充足的IMU数据
+    roslaunch mavros px4.launch fcu_url:=/dev/ttyACM0:921600
     # 2.录制IMU数据包
     rosbag record -O x152b_imu /mavros/imu/data_raw
     # 3.标定IMU
