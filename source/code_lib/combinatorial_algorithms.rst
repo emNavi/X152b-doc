@@ -35,21 +35,10 @@
           ├── tasks # 任务模块（存放所有已适配的算法）
           └── tools # 工具模块
 
-环境及代码准备
-------------------
-
-.. code-block:: bash
-
-    # 下载 X152b 开源项目
-    git clone --recursive https://github.com/emNavi/X152b.git
-
-    # 环境配置与模块编译
-    bash scripts/build.sh
-
 参数设置
 ------------------
 
-在 :code:`src/global_interface/config` 中存放着所有已适配算法的参数文件
+在 `src/global_interface/config` 中存放着所有已适配算法的参数文件
 
 .. code-block:: bash
 
@@ -140,20 +129,20 @@ Ego-Planner 规划算法输入相机的深度图、目标点和里程计信息�
     <arg name="point_num" value="5" />
 
     <!-- 目标点为相对里程计初始化点的x、y、z坐标，单位 m  -->
-    <arg name="point0_x" value="12.0" />
-    <arg name="point0_y" value="2.0" />
+    <arg name="point0_x" value="1.0" />
+    <arg name="point0_y" value="0.0" />
     <arg name="point0_z" value="0.7" />
 
-    <arg name="point1_x" value="12.0" />
-    <arg name="point1_y" value="-2.0" />
+    <arg name="point1_x" value="1.0" />
+    <arg name="point1_y" value="-1.0" />
     <arg name="point1_z" value="0.7" />
 
-    <arg name="point2_x" value="10.0" />
-    <arg name="point2_y" value="-4.0" />
+    <arg name="point2_x" value="1.0" />
+    <arg name="point2_y" value="1.0" />
     <arg name="point2_z" value="0.7" />
 
-    <arg name="point3_x" value="8.0" />
-    <arg name="point3_y" value="-1.0" />
+    <arg name="point3_x" value="0.0" />
+    <arg name="point3_y" value="1.0" />
     <arg name="point3_z" value="0.7" />
 
     <arg name="point4_x" value="0.0" />
@@ -192,7 +181,18 @@ A: 检查IMU和相机数据是否正常输入，或检查填入的相机-IMU内�
     /rs_camera/infra_left/data # 检查左右两相机话题发布频率是否在 15Hz 以上
     /rs_camera/infra_right/data
 
-Q: 只给了一个粗糙的参数，但是开启自动优化后依然不准，或直接跑崩。
+Q: vins 明显漂移或跑崩
+
+A: 可能的原因包含：
+
+.. code-block:: text
+
+    1、相机-IMU 外参误差大，需要重新标定。
+    2、由于其他程序对计算资源的挤占，视觉前端更新频率过低，导致后端无法进行正常优化
+    3、存在高机动运动，或长时间段内没有稳定的纹理用于前端特征提取。
+    4、vins-fusion算法是假设静态场景进行里程估计的，不适用画面存在大量的动态物体，且没有做动态物体剔除处理的场景。
+
+Q: 只给了一个粗糙的外参，但是开启自动优化后依然不准，或直接跑崩。
 
 A: 可能的原因包含：
 
