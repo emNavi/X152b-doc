@@ -7,12 +7,9 @@
    :hidden:
 
    calibration
-   combinatorial_algorithms
    vins_fusion
-   openvins
    ego_planner
-   ipc
-
+   combinatorial_algorithms
 
 本项目提供了丰富的前沿无人机自主飞行算法，首先进行以下准备工作
 
@@ -72,6 +69,5 @@
    :header-rows: 1
 
    * - `VINS-Fusion 视觉里程计 <./vins_fusion.html>`_
-   * - `OpenVINS 视觉里程计 <./openvins.html>`_
    * - `Ego-Planner 规划算法 <./ego_planner.html>`_
-   * - `IPC 规划控制算法 <./ipc.html>`_
+   * - 更多算法持续更新中...

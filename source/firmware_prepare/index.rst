@@ -9,7 +9,6 @@
    list_of_items
    preparation_before_flying
    configure_computer
-   write_image
 
 首次开箱，你可以按照以下顺序进行无人机的开箱使用
 
@@ -23,8 +22,8 @@
 
 .. raw:: html
 
-   <a href="./list_of_items.html" class="firmware_prepare_index_button-blue">1.准备物品清单</a>
+   <a href="./list_of_items.html" class="firmware_prepare_index_button-blue">1.准备物料清单</a>
    <a href="./preparation_before_flying.html" class="firmware_prepare_index_button-green">2.进行飞行准备</a>
    <a href="./configure_computer.html" class="firmware_prepare_index_button-red">3.配置电脑系统</a>
 
-至此，你已经完成了 X152b 无人机的开箱配置，下一步你可以进行常用算法的部署和飞行。
+当完成以上三步后，接下来你可以进行常用算法的部署和飞行。

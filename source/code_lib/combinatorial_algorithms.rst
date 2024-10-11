@@ -23,22 +23,21 @@
       │   ├── one_shot_single.sh # 无人机初始化
       │   ├── takeoff.sh # 起飞
       │   ├── land.sh # 降落
-      │   ├── kill_one_shot.sh  # 关闭所有程序
-      │   ├── 算法1_run.sh # 所有已适配算法的一键运行、配置
-      │   ├── 算法1_setup.sh
-      │   ├── 算法2_run.sh
-      │   ├── 算法2_setup.sh
-      │   └── ... # 更多适配算法持续更新中
+      │   └── kill_one_shot.sh  # 关闭所有程序
       └── src
-          ├── core_io # 数据IO模块（飞控驱动、相机驱动、通讯驱动等）
-          ├── global_interface # 接口模块（存放参数文件）
-          ├── tasks # 任务模块（存放所有已适配的算法）
-          └── tools # 工具模块
+          ├── core
+          │   ├── io # 数据IO模块（飞控驱动、相机驱动、通讯驱动等）
+          │   └── global_interface # 接口模块（存放参数文件）
+          │
+          │   # 这里存放所有已适配算法，以及一键配置、运行的脚本
+          ├── 算法1
+          ├── 算法2
+          └── ... # 更多适配算法持续更新中
 
 参数设置
 ------------------
 
-在 `src/global_interface/config` 中存放着所有已适配算法的参数文件
+在项目根目录下的 `src/core/global_interface/config` 中存放着所有已适配算法的参数文件
 
 .. code-block:: bash
 
@@ -51,7 +50,8 @@
 
 使用 `上一章节传感器标定 <./calibration.html>`_ 得到的结果，写入 left.yaml、right.yaml 和 realsense_stereo_imu_config.yaml 中
 
-VINS 里程计算法支持运行时自动优化 相机-IMU 的内外参，可根据标定情况选择是否优化
+
+若认为标定的误差大，可以选择开启 VINS 的内外参自动优化
 
 .. code-block:: yaml
 

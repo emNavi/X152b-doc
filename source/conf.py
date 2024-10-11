@@ -70,6 +70,7 @@ html_last_updated_fmt = ""
 html_use_index = False  # Don't create index
 html_domain_indices = False  # Don't need module indices
 html_copy_source = False  # Don't need sources
+# TODO(Derkai): 差一个网站logo
 html_logo = "assets/auto_awesome.svg"
 html_favicon = "assets/favicon-128x128.png"
 html_permalinks_icon = Icons.permalinks_icon
@@ -77,7 +78,7 @@ html_baseurl = "https://sphinxawesome.xyz/"
 html_extra_path = ["robots.txt", "_redirects"]
 html_context = {
     "mode": "production",
-    "feedback_url": "https://github.com/FP-Flight/X152b-doc/issues/new?title=Feedback",
+    "feedback_url": "https://github.com/emNavi/X152b-doc/issues/new?title=Feedback",
 }
 
 html_sidebars: dict[str, list[str]] = {

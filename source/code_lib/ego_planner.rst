@@ -6,23 +6,24 @@ Ego-Planner 规划算法
 
 .. code-block:: bash
 
-    # 进入 X152b 项目目录执行
-    bash scripts/ego_planner_setup.sh
+    # 进入 X152b 项目根目录执行
+    bash src/ego_planner_swarm_v1/ego_planner_setup.sh
 
 使用
 ----------------------------------------------
 
 .. code-block:: bash
 
-    # 进入 X152b 项目目录执行
-    bash scripts/ego_planner_run.sh
+    # 进入 X152b 项目根目录执行
+    # 初始化无人机
+    bash scripts/one_shot_single.sh
+    # 启动 Ego-Planner 规划算法
+    bash src/ego_planner_swarm_v1/ego_planner_run.sh
 
 调参建议
 ----------------------------------------------
 
 1、调整油门估计：可以先关闭油门估计，使用手动估计的油门值，并且对油门速度做一下限制，避免飞机起飞后直接炸机
-
-2、调整MPC参数：对于负载较小的飞机，参数可按数量级调整，若当前参数使得飞机震荡，可以往小调整一个数量级，直到稳定（此时可能会处于难收敛的状态）
 
 .. TODO(Derkai): 这里缺几张动图或者短视频用于展示不同参数的影响
 
