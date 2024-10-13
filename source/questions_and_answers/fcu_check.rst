@@ -67,4 +67,4 @@
   :width: 600
   :alt: Alternative text
 
-正常结果如上图所示， mavros 话题详细说明可参考下表：
+.. TODO（Derkai）：正常结果如上图所示， mavros 话题详细说明可参考下表：

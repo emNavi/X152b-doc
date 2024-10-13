@@ -25,5 +25,6 @@
   :width: 400
   :alt: Alternative text
 
+.. TODO(Derkai): 图需要添加文字
 .. TODO(Derkai): 差一个遥控器使用问题
 .. TODO(Derkai): 差一个售后的联络方式

@@ -1,4 +1,4 @@
-常用算法部署
+算法部署
 ============
 
 .. toctree::
@@ -10,8 +10,11 @@
    vins_fusion
    ego_planner
    combinatorial_algorithms
+   algorithm_evaluation_and_visualization
 
-本项目提供了丰富的前沿无人机自主飞行算法，首先进行以下准备工作
+本项目提供了丰富的前沿无人机自主飞行算法，首先进行以下准备工作：
+
+.. TODO(Derkai):通用环境后期可更新至系统装机驱动，这样就可以不用在这一步进行通用环境配置了,而是仅进行子算法模块的配置与编译
 
 .. code-block:: bash
 
@@ -20,6 +23,28 @@
 
    # 环境配置与模块编译
    bash scripts/build.sh
+
+项目主要结构介绍
+------------------
+
+.. code-block:: bash
+
+    x152b
+      ├── scripts # 存放各类工具脚本
+      │   ├── build.sh # 通用环境配置
+      │   ├── one_shot_single.sh # 无人机初始化
+      │   ├── takeoff.sh # 起飞
+      │   ├── land.sh # 降落
+      │   └── kill_one_shot.sh  # 关闭所有程序
+      └── src
+          ├── autonomous_drone_sdk # 各类基础功能实现
+          │   ├── global_interface # 接口层（存放参数文件、通讯接口等）
+          │   └── modules # 飞控驱动、相机驱动、通讯驱动等实现
+          │
+          │   # 这里存放所有已适配算法，以及一键配置、运行的脚本
+          ├── 算法1
+          ├── 算法2
+          └── ... # 更多适配算法持续更新中
 
 **在无人机准备就绪后，仅需3步即可部署算法进行实机飞行：**
 
