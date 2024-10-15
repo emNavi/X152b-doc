@@ -107,7 +107,7 @@ theme_options = ThemeOptions(
     main_nav_links={"Docs": "index"},
     extra_header_link_icons={
         "repository on GitHub": {
-            "link": "https://github.com/FP-Flight/X152b-doc",
+            "link": "https://github.com/emNavi/X152b-doc",
             "icon": (
                 '<svg height="26px" style="margin-top:-2px;display:inline" '
                 'viewBox="0 0 45 44" '
