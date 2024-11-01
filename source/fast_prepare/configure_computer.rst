@@ -6,6 +6,14 @@
 .. note:: 
     首次开箱 X152b 无人机，电脑里面无系统，需要 `烧录 emnavi 预设的 Ubuntu 系统镜像 <../questions_and_answers/write_image.html>`_
 
+.. TODO(Derkai): 需要解决视频无法播放的问题
+.. raw:: html
+
+    <video width="600" controls>
+      <source src="_static/vins_fusion_demo.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
 系统账户信息
 ----------
 
@@ -21,44 +29,6 @@
    * - emnavi
      - 123456
 
-修改无人机网络主机名、用户名及密码
--------------------
-
-.. note::
-  本示例将默认的用户名 khadas 改为 emnavi ,将默认的网络主机名 khadas 改为 X152b-ubuntu20
-
-1、修改网络主机名
-
-.. code-block:: bash
-
-  sudo gedit /etc/hosts
-
-把两个 Khadas 改成 x152b-ubuntu20
-
-.. image:: ./assets/change_host.png
-  :width: 600
-  :alt: Alternative text
-
-2、修改用户名
-
-.. code-block:: bash
-
-  sudo su
-  vim /etc/passwd 找到当前用户名并修改
-  vim /etc/shadow 找到当前用户名并修改
-  vim /etc/group 找到所有当前用户名并修改
-  reboot
-
-重启之后就是新的用户名了，接下来更改密码，主机名，以及用户根目录名
-
-.. code-block:: bash
-
-  # 更改用户根目录名
-  sudo mv /home/Khadas /home/emnavi
-  # 更改网络主机名
-  sudo hostnamectl set-hostname x152b-ubuntu20
-  # 更改密码
-  sudo passwd emnavi
 
 首次连接 Wifi
 -----------

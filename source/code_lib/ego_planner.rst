@@ -5,7 +5,7 @@ Ego-Planner 规划算法
 .. raw:: html
 
     <video width="600" controls>
-      <source src="_static/vins_fusion_demo.mp4" type="video/mp4">
+      <source src="https://emnavi-doc-img.oss-cn-beijing.aliyuncs.com/oss_prj_test/video/2024-09-18 22-55-05.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
 
@@ -15,7 +15,9 @@ Ego-Planner 规划算法
 .. code-block:: bash
 
     # 进入 X152b 项目根目录执行
-    bash src/ego_planner_swarm_v1/ego_planner_setup.sh
+    bash src/ego_planner_swarm_v1/ego_planner_swarm_v1_setup.sh
+
+当终端提示 `Ego-Planner-Swarm-V1 setup completed successfully!` 时，表明 Ego-Planner-Swarm-V1 安装配置完成。
 
 算法使用
 ----------------------------------------------

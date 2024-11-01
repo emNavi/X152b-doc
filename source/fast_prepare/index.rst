@@ -22,8 +22,8 @@
 
 .. raw:: html
 
-   <a href="./list_of_items.html" class="firmware_prepare_index_button-blue">1.准备物料清单</a>
-   <a href="./configure_computer.html" class="firmware_prepare_index_button-green">2.配置电脑系统</a>
-   <a href="./preparation_before_flying.html" class="firmware_prepare_index_button-red">3.进行飞行准备</a>
+   <a href="./list_of_items.html" class="fast_prepare_index_button-blue">1.准备物料清单</a>
+   <a href="./configure_computer.html" class="fast_prepare_index_button-green">2.配置电脑系统</a>
+   <a href="./preparation_before_flying.html" class="fast_prepare_index_button-red">3.进行飞行准备</a>
 
 当完成以上三步后，接下来你可以进行常用算法的部署和飞行。

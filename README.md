@@ -26,6 +26,7 @@ sudo docker run --rm -v $(pwd):/docs sphinxdoc/sphinx:awesome make html
 5、查看更新后的文档结果
 
 运行后生成的静态文档存在 `build/html`中， 可以安装 vscode 中的 Live Server 插件以展示效果(直接打开index.html是一样的，只不过重新编译后需要手动选择刷新)。
+目前项目部署在 github 上，更新的文档内容推送后通过 github 自动化编译，因此需要耗时几分钟后才会在网页上显示出最新的版本。
 
 Live Server 的使用方法为，将 X152b-doc 作为一个工作空间打开，现在打开 `build/html/index.html`,右键该文件选择 `Open with Live Server`。
 

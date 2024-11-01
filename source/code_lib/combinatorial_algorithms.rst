@@ -17,28 +17,6 @@
 
    Vins-Fusion + Ego-Planner 进行无人机自主飞行可视化图
 
-参数设置
-------------------
-
-.. note:: 
-    本示例所有参数调试均假设为理想实验场景，只给出粗略的调参建议，你可以按实际情况进行更细致的调整。
-
-第一步进行参数的设置，通常包括相机&IMU的标定信息、算法参数信息等。这些文件统一存放在 x152b 项目根目录下的 `src/core/global_interface/config` 中进行管理：
-
-.. code-block:: bash
-
-    # 本示例关注以下参数文件即可
-    ├── drone_param.yaml # 存放无人机参数
-    ├── vins_fusion # 存放 Vins-Fusion 里程计算法的参数
-    │   ├── left.yaml
-    │   ├── right.yaml
-    │   └── realsense_stereo_imu_config.yaml
-    │
-    └── ego_planner_swarm_v1 # 存放 Ego-Planner 规划算法的参数
-        └── depth_camera.yaml
-
-使用 `上一章节传感器标定 <./calibration.html>`_ 得到的标定结果，手动填写到 `left.yaml`、 `right.yaml`、 `realsense_stereo_imu_config.yaml` 和 `depth_camera.yaml` 中
-
 测试视觉里程计算法 Vins-Fusion
 ------------------
 

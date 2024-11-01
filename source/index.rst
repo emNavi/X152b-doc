@@ -6,6 +6,10 @@
 emNavi-X152b 无人机应用开发文档
 ================
 
+.. .. raw:: html
+
+..     <meta http-equiv="refresh" content="0; url=https://emnavi.tech/">
+
 .. image:: ./assets/X152b-main.png
   :width: 600
   :alt: Alternative text
@@ -16,7 +20,7 @@ emNavi-X152b 无人机应用开发文档
    :hidden:
 
    introduction/index
-   firmware_prepare/index
+   fast_prepare/index
    code_lib/index
    questions_and_answers/index
    version_info/index

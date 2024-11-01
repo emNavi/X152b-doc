@@ -58,9 +58,9 @@
 
 .. raw:: html
 
-   <a href="./calibration.html" class="firmware_prepare_index_button-blue">1.无人机传感器标定</a>
-   <a href="./combinatorial_algorithms.html" class="firmware_prepare_index_button-green">2.组合算法并部署</a>
-   <a href="./algorithm_evaluation_and_visualization.html" class="firmware_prepare_index_button-red">3.算法评估与可视化</a>
+   <a href="./calibration.html" class="fast_prepare_index_button-blue">1.无人机传感器标定</a>
+   <a href="./combinatorial_algorithms.html" class="fast_prepare_index_button-green">2.组合算法并部署</a>
+   <a href="./algorithm_evaluation_and_visualization.html" class="fast_prepare_index_button-red">3.算法评估与可视化</a>
 
 .. .. raw:: html
 

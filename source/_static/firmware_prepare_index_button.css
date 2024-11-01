@@ -1,4 +1,4 @@
-a.firmware_prepare_index_button-blue, a.firmware_prepare_index_button-green, a.firmware_prepare_index_button-red {
+a.fast_prepare_index_button-blue, a.fast_prepare_index_button-green, a.fast_prepare_index_button-red {
     display: block;        /* 将按钮显示为内联块元素 */
     padding: 20px 30px;           /* 按钮的内边距 */
     font-size: 14px;              /* 字体大小 */
@@ -11,18 +11,18 @@ a.firmware_prepare_index_button-blue, a.firmware_prepare_index_button-green, a.f
     transition: transform 0.2s ease, opacity 0.2s ease; /* 添加过渡效果 */
 }
 
-a.firmware_prepare_index_button-blue {
+a.fast_prepare_index_button-blue {
     display: inline-block;
     padding: 10px 20px;
     font-size: 14px;
     color: white;
-    background-color: #58a7f7;  /* 蓝色 */
+    background-color: #4fa3f7;  /* 蓝色 */
     border-radius: 5px;
     text-decoration: none;
     border: 1px solid #58a7f7;
 }
 
-a.firmware_prepare_index_button-green {
+a.fast_prepare_index_button-green {
     display: inline-block;
     padding: 10px 20px;
     font-size: 14px;
@@ -33,7 +33,7 @@ a.firmware_prepare_index_button-green {
     border: 1px solid #91fc91;
 }
 
-a.firmware_prepare_index_button-red {
+a.fast_prepare_index_button-red {
     display: inline-block;
     padding: 10px 20px;
     font-size: 14px;
@@ -44,7 +44,7 @@ a.firmware_prepare_index_button-red {
     border: 1px solid #f5a88c;
 }
 
-a.firmware_prepare_index_button-blue:hover, a.firmware_prepare_index_button-green:hover, a.firmware_prepare_index_button-red:hover {
+a.fast_prepare_index_button-blue:hover, a.fast_prepare_index_button-green:hover, a.fast_prepare_index_button-red:hover {
     opacity: 0.8;  /* 鼠标悬停时，按钮变得稍暗 */
     transform: scale(1.1);        /* 鼠标悬停时的放大效果 */
 }
